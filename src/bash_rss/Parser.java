@@ -12,7 +12,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class Parser  {
 	private final static String ITEM_TAG="item";
 	
-	void doParse (URL url, ArrayList<Item> feeds) throws XmlPullParserException, IOException{
+	private void doParse (URL url, ArrayList<Item> feeds) throws XmlPullParserException, IOException{
 
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
@@ -31,10 +31,9 @@ public class Parser  {
 			}		
 			eventType = xpp.next();
 			}
-		fetchFeeds(feeds);
 		}
 	
-	void getItem (XmlPullParser xpp, Item item) throws XmlPullParserException, IOException {
+	private void getItem (XmlPullParser xpp, Item item) throws XmlPullParserException, IOException {
 		xpp.nextTag();
 		item.setJokeGuid(xpp.nextText());
 		xpp.nextTag();
@@ -47,13 +46,7 @@ public class Parser  {
 		item.setJoke(xpp.nextText());		
 	}
 	
-	void fetchFeeds(ArrayList<Item> feeds){
-		for (int i = 0; i < feeds.size(); i++) {
-			System.out.print(feeds.get(i));
-		}	
-	}
-	
-	public ArrayList<Item> fethFeedsByUrl(URL url) throws XmlPullParserException, IOException{
+	public ArrayList<Item> fethFeeds(URL url) throws XmlPullParserException, IOException{
 		ArrayList<Item> feeds = new ArrayList<Item>();
 		doParse(url, feeds);
 		return feeds;
