@@ -3,6 +3,8 @@ package bash_rss;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -10,7 +12,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class Parser  {
 	final static String ITEM_TAG="item";
 	
-	public void doParse (URL url, Feeds feeds) throws XmlPullParserException, IOException{
+	public void doParse (URL url, ArrayList<Item> feeds) throws XmlPullParserException, IOException{
 
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
@@ -24,7 +26,7 @@ public class Parser  {
 				if (ITEM_TAG.equals(tag)){
 					Item item = new Item();	
 					getItem(xpp, item);
-					feeds.addItem(item);
+					feeds.add(item);
 				} 			
 			}		
 			eventType = xpp.next();
