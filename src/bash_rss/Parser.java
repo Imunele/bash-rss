@@ -8,7 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 public class Parser  {
-	public final static String ITEM_TAG="item";
+	final static String ITEM_TAG="item";
 	
 	public void doParse (URL url, Feeds feeds) throws XmlPullParserException, IOException{
 
@@ -31,7 +31,7 @@ public class Parser  {
 			}
 		}
 	
-	public void getItem (XmlPullParser xpp, Item item) throws XmlPullParserException, IOException {
+	void getItem (XmlPullParser xpp, Item item) throws XmlPullParserException, IOException {
 		xpp.nextTag();
 		item.setJokeGuid(xpp.nextText());
 		xpp.nextTag();
