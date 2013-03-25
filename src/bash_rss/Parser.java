@@ -12,7 +12,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class Parser  {
 	private final static String ITEM_TAG="item";
 	
-	private void doParse (URL url, ArrayList<Item> feeds) throws XmlPullParserException, IOException, BashParserException{
+	private ArrayList<Item> doParse (URL url) throws BashParserException{
+		ArrayList<Item> feeds = new ArrayList<Item> ();
 		try {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
@@ -25,18 +26,20 @@ public class Parser  {
 				String tag = xpp.getName();
 				if (ITEM_TAG.equals(tag)){
 					Item item = new Item();	
-					getItem(xpp, item);
+					item = getItem(xpp);
 					feeds.add(item);
 				} 			
 			}		
 			eventType = xpp.next();
 			}
 		} catch (Exception e) {
-			throw new BashParserException ();
+			throw new BashParserException ("wrong url");
 		}
+		return feeds;
 		}
 	
-	private void getItem (XmlPullParser xpp, Item item) throws XmlPullParserException, IOException {
+	private Item getItem (XmlPullParser xpp) throws XmlPullParserException, IOException {
+		Item item = new Item();	
 		xpp.nextTag();
 		item.setJokeGuid(xpp.nextText());
 		xpp.nextTag();
@@ -46,13 +49,14 @@ public class Parser  {
 		xpp.nextTag();
 		item.setJokeDate(xpp.nextText());
 		xpp.nextTag();
-		item.setJoke(xpp.nextText());		
+		item.setJoke(xpp.nextText());
+		return item;		
 	}
 	
-	public ArrayList<Item> fethFeeds(URL url) throws XmlPullParserException, IOException{
+	public ArrayList<Item> fetchFeeds(URL url) {
 		ArrayList<Item> feeds = new ArrayList<Item>();
 		try {
-			doParse(url, feeds);
+			feeds = doParse(url);
 		} catch (BashParserException e) {
 			e.printStackTrace();
 		}
