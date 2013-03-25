@@ -36,8 +36,7 @@ public class Item {
 	}
 	public String getJoke (){
 		return this.joke;
-	}
-	
+	}	
 	public String toString(){
 		return this.jokeTittle+"\n"+this.jokeDate+"\n"+this.joke+"\n"; 		
 	}

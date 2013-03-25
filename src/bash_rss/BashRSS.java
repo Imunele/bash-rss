@@ -12,8 +12,8 @@ public class BashRSS {
 			for (Item item : feeds){
 				System.out.println(item);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (BashParserException e) {
+			System.out.println(e.toString());
 		  }
 	}
 }

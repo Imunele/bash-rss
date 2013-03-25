@@ -2,18 +2,16 @@ package bash_rss;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 public class Parser  {
 	private final static String ITEM_TAG="item";
-
-	private ArrayList<Item> doParse (URL url) throws  XmlPullParserException,  BashParserException, IOException {
+	private ArrayList<Item> doParse (URL url) throws  BashParserException{
 		ArrayList<Item> feeds = new ArrayList<Item> ();
 		try {
 			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -34,12 +32,15 @@ public class Parser  {
 				eventType = xpp.next();
 			}
 		} catch (XmlPullParserException e) {
-			throw new BashParserException("cant do parse");
+			throw new BashParserException("it can not parse");
+		}
+		  catch (IOException e) {
+			  throw new BashParserException("incorrect stream");
 		}
 		return feeds;
 		}
 
-	private Item getItem (XmlPullParser xpp) throws  XmlPullParserException, IOException, BashParserException{
+	private Item getItem (XmlPullParser xpp) throws BashParserException{
 		Item item = new Item();	
 		try {
 			xpp.nextTag();
@@ -59,14 +60,14 @@ public class Parser  {
 
 	}
 
-	public ArrayList<Item> fetchFeeds(String sUrl) throws   BashParserException, XmlPullParserException, IOException{
+	public ArrayList<Item> fetchFeeds(String sUrl) throws   BashParserException{
 		ArrayList<Item> feeds = new ArrayList<Item>();
-		try{
+		try {
 			URL url = new URL (sUrl);
 			feeds = doParse(url);
-		} catch (UnknownHostException e) {
-			throw new BashParserException("wrong url");
-			}
+		} catch (MalformedURLException e) {
+			throw new BashParserException("incorrect url");
+		}
 		return feeds;
 	}
 
