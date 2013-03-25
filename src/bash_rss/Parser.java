@@ -3,6 +3,7 @@ package bash_rss;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -11,8 +12,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 public class Parser  {
 	private final static String ITEM_TAG="item";
-	
-	private ArrayList<Item> doParse (URL url) throws BashParserException{
+
+	private ArrayList<Item> doParse (URL url) throws  XmlPullParserException,  BashParserException, IOException {
 		ArrayList<Item> feeds = new ArrayList<Item> ();
 		try {
 			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -32,15 +33,15 @@ public class Parser  {
 				}		
 				eventType = xpp.next();
 			}
-		} catch (Exception e) {
-			throw new BashParserException ("cant parse");
+		} catch (XmlPullParserException e) {
+			throw new BashParserException("cant do parse");
 		}
 		return feeds;
 		}
-	
-	private Item getItem (XmlPullParser xpp) throws XmlPullParserException, IOException, BashParserException {
+
+	private Item getItem (XmlPullParser xpp) throws  XmlPullParserException, IOException, BashParserException{
+		Item item = new Item();	
 		try {
-			Item item = new Item();	
 			xpp.nextTag();
 			item.setJokeGuid(xpp.nextText());
 			xpp.nextTag();
@@ -51,21 +52,23 @@ public class Parser  {
 			item.setJokeDate(xpp.nextText());
 			xpp.nextTag();
 			item.setJoke(xpp.nextText());
-		return item;
 		} catch (Exception e) {
 			throw new BashParserException("cant get item");
 		}
+		return item;
+
 	}
-	
-	public ArrayList<Item> fetchFeeds(URL url) throws BashParserException {
+
+	public ArrayList<Item> fetchFeeds(String sUrl) throws   BashParserException, XmlPullParserException, IOException{
 		ArrayList<Item> feeds = new ArrayList<Item>();
-		try {
+		try{
+			URL url = new URL (sUrl);
 			feeds = doParse(url);
-		} catch (Exception e) {
-			throw new BashParserException("pizdec");
-		}
+		} catch (UnknownHostException e) {
+			throw new BashParserException("wrong url");
+			}
 		return feeds;
 	}
-	
-		
+
+
 	}
