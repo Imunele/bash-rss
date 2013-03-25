@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 
 public class BashRSS {
-	public static void main (String[] arg) throws MalformedURLException {
-		URL url = new URL ("http://bashim/rss/");
+	public static void main (String[] arg) throws MalformedURLException, BashParserException{
+		URL url = new URL ("http://bash.im/rss/");
 		Parser parser = new Parser();
 		ArrayList<Item> feeds = parser.fetchFeeds(url);
 		for (Item item : feeds){
