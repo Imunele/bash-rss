@@ -9,9 +9,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-public class Parser  {
+public class Parser {
 	private final static String ITEM_TAG="item";
-	private ArrayList<Item> doParse (URL url) throws  BashParserException{
+	private ArrayList<Item> doParse (URL url) throws  BashParserException {
 		ArrayList<Item> feeds = new ArrayList<Item> ();
 		try {
 			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -34,12 +34,11 @@ public class Parser  {
 		} catch (XmlPullParserException e) {
 			throw new BashParserException("it can not parse");
 		}
-		  catch (IOException e) {
-			  throw new BashParserException("incorrect stream");
+		  catch (IOException e) {  
+			throw new BashParserException("incorrect stream");
 		}
 		return feeds;
-		}
-
+	}
 	private Item getItem (XmlPullParser xpp) throws BashParserException{
 		Item item = new Item();	
 		try {
@@ -57,9 +56,7 @@ public class Parser  {
 			throw new BashParserException("cant get item");
 		}
 		return item;
-
 	}
-
 	public ArrayList<Item> fetchFeeds(String sUrl) throws   BashParserException{
 		ArrayList<Item> feeds = new ArrayList<Item>();
 		try {
@@ -70,6 +67,4 @@ public class Parser  {
 		}
 		return feeds;
 	}
-
-
-	}
+}

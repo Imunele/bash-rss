@@ -2,7 +2,6 @@ package bash_rss;
 
 import java.util.ArrayList;
 
-
 public class BashRSS {
 	public static void main (String[] arg) {
 		String sUrl = "http://bash.im/rss";
@@ -14,6 +13,6 @@ public class BashRSS {
 			}
 		} catch (BashParserException e) {
 			System.out.println(e.toString());
-		  }
+		}
 	}
 }

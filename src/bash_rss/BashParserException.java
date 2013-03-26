@@ -1,14 +1,14 @@
 package bash_rss;
 
 public class BashParserException extends Exception{
-	
-	private static final long serialVersionUID = 1L;
-	private String err;
-	
+	private final String err;	
 	public BashParserException(String string) {
 		err = string;
+		if ( null == err || "".equals(err) ) {
+			throw new IllegalArgumentException("Error message cannot be null.");
+		}
 	}
-	public String toString(){
+	public String toString() {
 		String message = "BashParserException: "+err;
 		return message;
 	}
