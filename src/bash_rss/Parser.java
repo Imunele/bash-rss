@@ -33,7 +33,6 @@ public class Parser {
 						Item item = new Item();	
 						item = getItem(xpp);
 						feeds.add(item);
-						System.out.println("-----------------------------------------------------------------------------");
 					} 			
 				}		
 				eventType = xpp.next();
@@ -54,42 +53,22 @@ public class Parser {
 			while (eventType != XmlPullParser.END_TAG || !ITEM_TAG.equals(xpp.getName())){
 				tag = xpp.getName();
 				if (GUID_TAG.equals(tag)){
-					String str = xpp.nextText();
-					item.setJokeGuid(str);
-					System.out.println(str);
+					item.setJokeGuid(xpp.nextText());
 				}
 				if (LINK_TAG.equals(tag)){
-					String str = xpp.nextText();
-					item.setJokeGuid(str);
-					System.out.println(str);
+					item.setJokeLink(xpp.nextText());
 				}
 				if (TITLE_TAG.equals(tag)){
-					String str = xpp.nextText();
-					item.setJokeGuid(str);
-					System.out.println(str);
+					item.setJokeTittle(xpp.nextText());
 				}
 				if (DATE_TAG.equals(tag)){
-					String str = xpp.nextText();
-					item.setJokeGuid(str);
-					System.out.println(str);
+					item.setJokeDate(xpp.nextText());
 				}
 				if (JOKE_TAG.equals(tag)){
-					String str = xpp.nextText();
-					item.setJokeGuid(str);
-					System.out.println(str);
+					item.setJoke(xpp.nextText());
 				}
 				eventType = xpp.next();
 			}
-			/*xpp.nextTag();
-			item.setJokeGuid(xpp.nextText());
-			xpp.nextTag();
-			item.setJokeLink(xpp.nextText());
-			xpp.nextTag();
-			item.setJokeTittle(xpp.nextText());
-			xpp.nextTag();
-			item.setJokeDate(xpp.nextText());
-			xpp.nextTag();
-			item.setJoke(xpp.nextText());*/
 		} catch (Exception e) {
 			throw new BashParserException("cant get item");
 		}
