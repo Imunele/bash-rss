@@ -11,6 +11,11 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 public class Parser {
 	private final static String ITEM_TAG="item";
+	private final static String GUID_TAG="guid";
+	private final static String LINK_TAG="link";
+	private final static String TITLE_TAG="title";
+	private final static String DATE_TAG="pubDate";
+	private final static String JOKE_TAG="description";
 	private ArrayList<Item> doParse (URL url) throws  BashParserException {
 		ArrayList<Item> feeds = new ArrayList<Item> ();
 		try {
@@ -20,13 +25,15 @@ public class Parser {
 			InputStream stream = url.openStream();
 			xpp.setInput(stream, null);	
 			int eventType = xpp.getEventType(); 
+			String tag = new String();
 			while ( eventType != XmlPullParser.END_DOCUMENT){
 				if (eventType == XmlPullParser.START_TAG){
-					String tag = xpp.getName();
+					tag = xpp.getName();
 					if (ITEM_TAG.equals(tag)) {
 						Item item = new Item();	
 						item = getItem(xpp);
 						feeds.add(item);
+						System.out.println("-----------------------------------------------------------------------------");
 					} 			
 				}		
 				eventType = xpp.next();
@@ -41,8 +48,39 @@ public class Parser {
 	}
 	private Item getItem (XmlPullParser xpp) throws BashParserException{
 		Item item = new Item();	
-		try {
-			xpp.nextTag();
+		try {	
+			int eventType = xpp.getEventType(); 
+			String tag = new String();
+			while (eventType != XmlPullParser.END_TAG || !ITEM_TAG.equals(xpp.getName())){
+				tag = xpp.getName();
+				if (GUID_TAG.equals(tag)){
+					String str = xpp.nextText();
+					item.setJokeGuid(str);
+					System.out.println(str);
+				}
+				if (LINK_TAG.equals(tag)){
+					String str = xpp.nextText();
+					item.setJokeGuid(str);
+					System.out.println(str);
+				}
+				if (TITLE_TAG.equals(tag)){
+					String str = xpp.nextText();
+					item.setJokeGuid(str);
+					System.out.println(str);
+				}
+				if (DATE_TAG.equals(tag)){
+					String str = xpp.nextText();
+					item.setJokeGuid(str);
+					System.out.println(str);
+				}
+				if (JOKE_TAG.equals(tag)){
+					String str = xpp.nextText();
+					item.setJokeGuid(str);
+					System.out.println(str);
+				}
+				eventType = xpp.next();
+			}
+			/*xpp.nextTag();
 			item.setJokeGuid(xpp.nextText());
 			xpp.nextTag();
 			item.setJokeLink(xpp.nextText());
@@ -51,7 +89,7 @@ public class Parser {
 			xpp.nextTag();
 			item.setJokeDate(xpp.nextText());
 			xpp.nextTag();
-			item.setJoke(xpp.nextText());
+			item.setJoke(xpp.nextText());*/
 		} catch (Exception e) {
 			throw new BashParserException("cant get item");
 		}

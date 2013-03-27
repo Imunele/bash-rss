@@ -2,15 +2,15 @@ package bash_rss;
 
 public class BashParserException extends Exception{
 	private final String err;	
-	public BashParserException(String string) {
-		err = string;
-		if ( null == err || "".equals(err) ) {
+	public BashParserException(String string) {	
+		if ( null == string || "".equals(string) ) {
 			throw new IllegalArgumentException("Error message cannot be null.");
+
 		}
+		err = string;
 	}
 	public String toString() {
 		String message = "BashParserException: "+err;
 		return message;
 	}
-
 }
