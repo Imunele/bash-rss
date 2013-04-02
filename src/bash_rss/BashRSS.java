@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class BashRSS {
 	public static void main (String[] arg) {
-		String sUrl = "http://bash.im/rss";
+		final String sUrl = "http://bash.im/rss";
 		Parser parser = new Parser();
 		try {
 			ArrayList<Item> feeds = parser.fetchFeeds(sUrl);

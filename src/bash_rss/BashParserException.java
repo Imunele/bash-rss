@@ -10,7 +10,7 @@ public class BashParserException extends Exception{
 		err = string;
 	}
 	public String toString() {
-		String message = "BashParserException: "+err;
+		final String message = "BashParserException: "+err;
 		return message;
 	}
 }

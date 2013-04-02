@@ -19,13 +19,13 @@ public class Parser {
 	private ArrayList<Item> doParse (URL url) throws  BashParserException {
 		ArrayList<Item> feeds = new ArrayList<Item> ();
 		try {
-			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			final XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 			factory.setNamespaceAware(true);
 			XmlPullParser xpp = factory.newPullParser();
-			InputStream stream = url.openStream();
+			final InputStream stream = url.openStream();
 			xpp.setInput(stream, null);	
 			int eventType = xpp.getEventType(); 
-			String tag = new String();
+			String tag;
 			while ( eventType != XmlPullParser.END_DOCUMENT){
 				if (eventType == XmlPullParser.START_TAG){
 					tag = xpp.getName();
@@ -49,23 +49,28 @@ public class Parser {
 		Item item = new Item();	
 		try {	
 			int eventType = xpp.getEventType(); 
-			String tag = new String();
+			String tag;
 			while (eventType != XmlPullParser.END_TAG || !ITEM_TAG.equals(xpp.getName())){
 				tag = xpp.getName();
 				if (GUID_TAG.equals(tag)){
-					item.setJokeGuid(xpp.nextText());
+					item.setJokeGuid(parseGuid(xpp));
+					eventType = xpp.next();
 				}
 				if (LINK_TAG.equals(tag)){
-					item.setJokeLink(xpp.nextText());
+					item.setJokeLink(parseLink(xpp));
+					eventType = xpp.next();
 				}
 				if (TITLE_TAG.equals(tag)){
-					item.setJokeTittle(xpp.nextText());
+					item.setJokeTittle(parseTitle(xpp));
+					eventType = xpp.next();
 				}
 				if (DATE_TAG.equals(tag)){
-					item.setJokeDate(xpp.nextText());
+					item.setJokeDate(parseDate(xpp));
+					eventType = xpp.next();
 				}
 				if (JOKE_TAG.equals(tag)){
-					item.setJoke(xpp.nextText());
+					item.setJoke(parseJoke(xpp));
+					eventType = xpp.next();
 				}
 				eventType = xpp.next();
 			}
@@ -83,5 +88,60 @@ public class Parser {
 			throw new BashParserException("incorrect url");
 		}
 		return feeds;
+	}
+	private String parseGuid (XmlPullParser xpp) throws BashParserException {
+		final String guid;
+		try {
+			guid = xpp.nextText();
+		} catch (XmlPullParserException e) {
+			throw new BashParserException("cant get guid");
+		} catch (IOException e) {
+			throw new BashParserException("cant get guid");
+		}
+		return guid;
+	}
+	private String parseLink (XmlPullParser xpp) throws BashParserException {
+		final String link;
+		try {
+			link = xpp.nextText();
+		} catch (XmlPullParserException e) {
+			throw new BashParserException("cant get link");
+		} catch (IOException e) {
+			throw new BashParserException("cant get link");
+		}
+		return link;
+	}
+	private String parseTitle (XmlPullParser xpp) throws BashParserException {
+		final String title;
+		try {
+			title = xpp.nextText();
+		} catch (XmlPullParserException e) {
+			throw new BashParserException("cant get title");
+		} catch (IOException e) {
+			throw new BashParserException("cant get title");
+		}
+		return title;
+	}
+	private String parseDate (XmlPullParser xpp) throws BashParserException {
+		final String date;
+		try {
+			date = xpp.nextText();
+		} catch (XmlPullParserException e) {
+			throw new BashParserException("cant get date");
+		} catch (IOException e) {
+			throw new BashParserException("cant get date");
+		}
+		return date;
+	}
+	private String parseJoke (XmlPullParser xpp) throws BashParserException {
+		final String joke;
+		try {
+			joke = xpp.nextText();
+		} catch (XmlPullParserException e) {
+			throw new BashParserException("cant get joke");
+		} catch (IOException e) {
+			throw new BashParserException("cant get joke");
+		}
+		return joke;
 	}
 }
